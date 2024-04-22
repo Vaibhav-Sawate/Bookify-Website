@@ -124,7 +124,7 @@ To get a local copy up and running follow these simple steps.
    * Generate API Keys on Razorpay (Settings -> API Keys -> Generate API Keys)
 4. Clone the repo
    ```sh
-   git clone https://github.com/shreyashkadam/bookify.git
+   git clone https://github.com/Vaibhav-Sawate/Bookify-Website.git
    ```
 5. Install NPM packages
    ```sh
