@@ -1,0 +1,57 @@
+/* Series.css */
+h1{
+    font-size: 60px;
+}
+.series-list {
+    list-style: none;
+    padding: 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+  } 
+  
+  .series-item {
+    cursor: pointer;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    flex: 1 0 calc(50% - 10px);
+    max-width: calc(50% - 10px);
+    box-sizing: border-box;
+    overflow: hidden;
+    transition: background-color 0.3s;
+  }
+  
+  .series-item:hover {
+    background-color: #f0f0f0;
+  }
+  
+  .series-item.active {
+    background-color: #007bff;
+    color: #fff;
+  }
+  
+  .book-thumbnail {
+    height: 80px;
+    overflow: hidden;
+  }
+  
+  .book-thumbnail img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  
+  .book-details {
+    padding: 8px;
+    text-align: center;
+    font-size: 14px;
+  }
+  
+  .series-name {
+    font-weight: bold;
+  }
+  
+  .book-name {
+    margin-top: 5px;
+  }
+  
