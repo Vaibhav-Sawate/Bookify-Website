@@ -9,8 +9,6 @@ import { FaCrown } from "react-icons/fa";
 import { motion } from "framer-motion";
 import SeriesList from "./SeriesList";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
-
 const Home = () => {
   const navigate = useNavigate();
   const [
@@ -27,11 +25,6 @@ const Home = () => {
   const [filteredAudiobooks, setFilteredAudiobooks] = useState(null);
   const [uniqueSeries, setUniqueSeries] = useState([]);
   const [selectedSeries, setSelectedSeries] = useState(null);
-
-  const checkPremium = async()=>{
-    await axios.put(`${process.env.REACT_APP_BASE_URL}api/users/checkPremium`)
-  }
-
   useEffect(() => {
     if (!allAudiobooks) {
       getAllAudiobooks().then((data) => {
@@ -41,7 +34,6 @@ const Home = () => {
         });
       });
     }
-    checkPremium();
   }, []);
   useEffect(() => {
     if (allAudiobooks) {
@@ -193,33 +185,44 @@ const Home = () => {
         </div>
       </div> */}
 
-      <div className="flex flex-col md:flex-row">
-        <div className="w-full md:w-1/4 p-4">
-          <h1 className="filtered-series-header" id="filteredSeriesHeader">
-            Select Series:
-          </h1>
-          <div className="scroll-container">
-            <SeriesList
-              uniqueSeries={uniqueSeries}
-              selectedSeries={selectedSeries}
-              setSelectedSeries={setSelectedSeries}
-              allAudiobooks={allAudiobooks}
-            />
-          </div>
-        </div>
-        <div className="w-full md:w-3/4 p-4">
-          <h1 className="filtered-series-header" id="filteredSeriesHeader">
-            {selectedSeries ? ` ${selectedSeries}` : "Filtered Books"}
-          </h1>
-          <div className="scroll-container">
-            <div className="w-full h-auto flex items-center justify-evenly gap-4 flex-wrap p-4">
-              <HomeAudiobookContainer
-                musics={filteredAudiobooks ? filteredAudiobooks : allAudiobooks}
-              />
-            </div>
-          </div>
-        </div>
+
+<div className="flex flex-col md:flex-row">
+  <div className="w-full md:w-1/4 p-4">
+    <h1 className="filtered-series-header" id="filteredSeriesHeader">
+      Select Series:
+    </h1>
+    <div className="scroll-container">
+      <SeriesList
+        uniqueSeries={uniqueSeries}
+        selectedSeries={selectedSeries}
+        setSelectedSeries={setSelectedSeries}
+        allAudiobooks={allAudiobooks}
+      />
+    </div>
+  </div>
+  <div className="w-full md:w-3/4 p-4">
+    <h1 className="filtered-series-header" id="filteredSeriesHeader">
+      {selectedSeries ? ` ${selectedSeries}` : "Filtered Books"}
+    </h1>
+    <div className="scroll-container">
+      <div className="w-full h-auto flex items-center justify-evenly gap-4 flex-wrap p-4">
+        <HomeAudiobookContainer
+          musics={filteredAudiobooks ? filteredAudiobooks : allAudiobooks}
+        />
       </div>
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+
+
+
+
     </div>
   );
 };
@@ -227,9 +230,8 @@ export const HomeAudiobookContainer = ({ musics }) => {
   const navigate = useNavigate();
   const [alert, setAlert] = useState(null);
   const [alertMsg, setAlertMsg] = useState("");
-  const [{ user, isAudiobookPlaying, audiobook, allAudiobooks }, dispatch] =
-    useStateValue();
-  const addAudiobookToContext = (index, id) => {
+  const [{ user, isAudiobookPlaying, audiobook }, dispatch] = useStateValue();
+  const addAudiobookToContext = (index) => {
     if (user?.user.role === "admin" || user?.user.isPremium === true) {
       if (!isAudiobookPlaying) {
         dispatch({
@@ -237,24 +239,12 @@ export const HomeAudiobookContainer = ({ musics }) => {
           isAudiobookPlaying: true,
         });
       }
-      // if (audiobook !== index) {
-      //   dispatch({
-      //     type: actionType.SET_AUDIOBOOK,
-      //     audiobook: index,
-      //     currentPlay:id,
-      //   });
-      // }
-      for (let i = 0; i < allAudiobooks.length; i++) {
-        if (allAudiobooks[i]._id === id) {
-          index = i;
-          break;
-        }
+      if (audiobook !== index) {
+        dispatch({
+          type: actionType.SET_AUDIOBOOK,
+          audiobook: index,
+        });
       }
-      dispatch({
-        type: actionType.SET_AUDIOBOOK,
-        audiobook: index,
-        currentPlay: id,
-      });
     } else {
       setAlert("success");
       setAlertMsg("Buy premium to enjoy listening Audiobook!");
@@ -275,7 +265,7 @@ export const HomeAudiobookContainer = ({ musics }) => {
           <div className="w-[4px] h-10 bg-yellow-500 rounded-md"></div>
           <FaCrown className="text-xl text-yellow-500" />
           <p className="text-base font-semibold text-textColor"> */}
-        <div className="alert-premium-content">
+          <div className="alert-premium-content">
           <div className="alert-premium-bar"></div>
           <FaCrown className="alert-premium-icon" />
           <p className="alert-premium-text">
@@ -291,7 +281,7 @@ export const HomeAudiobookContainer = ({ musics }) => {
         musics.map((data, index) => (
           <div key={data._id} className="series-item">
             <div className="flex items-center justify-between gap-4 w-full">
-              {/* <div className="series-item-content"> */}
+            {/* <div className="series-item-content"> */}
               {/* Small photo */}
               <img
                 src={data.imageURL}
@@ -302,7 +292,7 @@ export const HomeAudiobookContainer = ({ musics }) => {
 
               {/* Details */}
               <div className="flex flex-col flex-grow">
-                {/* <div className="series-details"> */}
+              {/* <div className="series-details"> */}
                 <p className="series-name">
                   {data.name.length > 25
                     ? `${data.name.slice(0, 25)}...`
@@ -324,7 +314,7 @@ export const HomeAudiobookContainer = ({ musics }) => {
                 <button
                   className="bg-primary text-white p-2 rounded add-button"
                   // className="add-button"
-                  onClick={() => addAudiobookToContext(index, data._id)}
+                  onClick={() => addAudiobookToContext(index)}
                   style={{
                     color: "white",
                     backgroundColor: "black",

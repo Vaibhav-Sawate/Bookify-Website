@@ -113,6 +113,7 @@ const MusicPlayer = () => {
         <div className="flex-1">
           <AudioPlayer
             src={allAudiobooks[audiobook]?.audiobookUrl}
+            onPlay={() => console.log("is playing")}
             autoPlay={true}
             showSkipControls={true}
             onClickNext={nextTrack}
