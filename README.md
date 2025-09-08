@@ -210,13 +210,6 @@ Don't forget to give the project a star! Thanks again!
 
 
 
-<!-- CONTACT -->
-## Contact
-
-Shreyash Kadam - [@linkedin-handle](https://linkedin.com/in/shreyash-kadam) - shreyash.kadam10@gmail.com
-
-Project Link: [https://github.com/shreyashkadam/bookify](https://github.com/shreyashkadam/bookify)
-
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 
